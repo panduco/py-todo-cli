@@ -36,6 +36,13 @@ def main():
     parser_done = subparsers.add_parser("done", help="Mark a task as done")
     parser_done.add_argument("id", type=int, help="The task number to complete")
 
+    # DELETE Command
+    parser_delete = subparsers.add_parser("delete", help="Delete a task")
+    parser_delete.add_argument("id", type=int, help="The task number to delete")
+
+    # CLEAR Command
+    parser_clear = subparsers.add_parser("clear", help="Delete all tasks")
+    
     args = parser.parse_args()
     tasks = load_tasks()
 
@@ -67,6 +74,26 @@ def main():
                 print("Error: Task ID out of range.")
         except ValueError:
             print("Error: ID must be a number.")
+
+    elif args.command == "delete":
+        try:
+            task_idx = args.id - 1
+            if 0 <= task_idx < len(tasks):
+                deleted_task = tasks.pop(task_idx)
+                save_tasks(tasks)
+                print(f"🗑️ Deleted task: {deleted_task['task']}")
+            else:
+                print("Error: Task ID out of range.")
+        except ValueError:
+            print("Error: ID must be a number.")
+    elif args.command == "clear":
+        confirm = input("Are you sure you want to delete all tasks? (y/n): ")
+        if confirm.lower() == 'y':
+            tasks = []
+            save_tasks(tasks)
+            print("🗑️ All tasks deleted.")
+        else:
+            print("Cancelled.")
 
 if __name__ == "__main__":
     main()
