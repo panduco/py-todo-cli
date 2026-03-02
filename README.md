@@ -1,5 +1,3 @@
-
-```markdown
 # 📝 Python Todo CLI
 
 A simple, lightweight, and fast command-line tool to manage your daily tasks. 
